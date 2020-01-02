@@ -32,6 +32,12 @@ def index():
     return render_template('lista.html', titulo='Jogos', jogos=lista)
 
 
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # show the post with the given id, the id is an integer
+    return 'Post %d' % post_id
+
+
 @app.route('/novo')
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
@@ -52,7 +58,7 @@ def criar():
 @app.route('/login')
 def login():
     proxima = request.args.get('proxima')
-    return render_template('login.html', proxima=proxima)
+    return render_template('login.html', proxima=proxima, titulo='Teckne')
 
 @app.route('/autenticar', methods=['POST',])
 def autenticar():
@@ -74,6 +80,27 @@ def logout():
     session['usuario_logado'] = None
     flash('Nenhum usuário logado')
     return redirect(url_for('index'))
+
+
+
+
+# MY CREATE 
+
+
+@app.route('/cadastre')
+def cadastre():
+    proxima = request.args.get('proxima')
+    return render_template ('cadastro.html', proxima=proxima)
+    
+@app.route('/efetuarcadastro', methods=['POST',])
+def efetuarcadastro():
+    id = request.form['id']
+    nome = request.form['cadastrosenha']
+    senha = request.form['cadastrosenha']
+    user = Usuario (id, nome, senha) 
+    usuarios.append(user)
+    return redirect (url_for('login'))
+
 
 
 app.run(debug=True)
