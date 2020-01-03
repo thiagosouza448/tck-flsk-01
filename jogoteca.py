@@ -1,34 +1,40 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
+from models import Jogo, Usuario
+from dao import JogoDao
+from flask_mysqldb import MySQL
+
+
+
+
+
 app = Flask(__name__)
 app.secret_key = 'eueumesmo'
 
 
-class Jogo:
-    def __init__(self, nome, categoria, console):
-        self.nome = nome
-        self.categoria = categoria
-        self.console = console
+
+app.config['MYSQL_HOST'] = "0.0.0.0"
+app.config['MYSQL_USER'] = "root"
+app.config['MYSQL_PASSWORD'] = "123"
+app.config['MYSQL_DB'] = "jogoteca"
+app.config['MYSQL_PORT'] = 3306
+db = MySQL(app)
 
 
-jogo1 = Jogo('Super Mario', 'Acao', 'SNES')
-jogo2 = Jogo('Pokemon Gold', 'RPG', 'GBA')
-jogo3 = Jogo('Mortal Kombat', 'LutA', 'SNES')
-lista = [jogo1, jogo2, jogo3]
+jogo_dao = JogoDao(db)
 
-class Usuario:
-    def __init__(self, id, nome, senha):
-        self.id = id
-        self.nome = nome
-        self.senha = senha
 
-usuario1 = Usuario('thiago448','thiago','thiago')
-usuario2 = Usuario('alineaclina','Aline', 'gatita')
-usuarios= {usuario1.id:usuario1,
-          usuario2.id: usuario2}
+
+
+
+usuario1 = Usuario('thiago448', 'thiago', 'thiago')
+usuario2 = Usuario('alineaclina', 'Aline', 'gatita')
+usuarios = {usuario1.id: usuario1,
+            usuario2.id: usuario2}
 
 
 @app.route('/')
 def index():
+    lista = jogo_dao.listar()
     return render_template('lista.html', titulo='Jogos', jogos=lista)
 
 
@@ -42,7 +48,7 @@ def show_post(post_id):
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo jogo')
+    return render_template('novo.html', titulo='Novo jogo') 
 
 
 @app.route('/criar', methods=['POST', ])
@@ -51,16 +57,17 @@ def criar():
     categoria = request.form['categoria']
     console = request.form['console']
     jogo = Jogo(nome, categoria, console)
-    lista.append(jogo)
+    jogo_dao.salvar(jogo)
     return redirect(url_for('index'))
 
 
 @app.route('/login')
 def login():
     proxima = request.args.get('proxima')
-    return render_template('login.html', proxima=proxima, titulo='Teckne')
+    return render_template('login.html', proxima=proxima, titulo='Manager DevOps')
 
-@app.route('/autenticar', methods=['POST',])
+
+@app.route('/autenticar', methods=['POST', ])
 def autenticar():
     if request.form['usuario'] in usuarios:
         usuario = usuarios[request.form['usuario']]
@@ -70,7 +77,7 @@ def autenticar():
             proxima_pagina = request.form['proxima']
             return redirect(proxima_pagina)
 
-    else :
+    else:
         flash('Não logado, tente de novo!')
         return redirect(url_for('login'))
 
@@ -82,25 +89,24 @@ def logout():
     return redirect(url_for('index'))
 
 
-
-
-# MY CREATE 
+# MY CREATE
 
 
 @app.route('/cadastre')
 def cadastre():
     proxima = request.args.get('proxima')
-    return render_template ('cadastro.html', proxima=proxima)
-    
-@app.route('/efetuarcadastro', methods=['POST',])
+    return render_template('cadastro.html', proxima=proxima)
+
+
+@app.route('/efetuarcadastro', methods=['POST', ])
 def efetuarcadastro():
     id = request.form['id']
-    nome = request.form['cadastrosenha']
+    nome = request.form['cadastrouser']
     senha = request.form['cadastrosenha']
-    user = Usuario (id, nome, senha) 
+    usuarios = []
+    user = Usuario(id, nome, senha)
     usuarios.append(user)
-    return redirect (url_for('login'))
+    return redirect(url_for('login'))
 
 
-
-app.run(debug=True)
+app.run(host='127.0.0.1', debug=True)

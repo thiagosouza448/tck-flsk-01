@@ -4,17 +4,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='base.css') }}">
 
-<a href="/logout">LOGOUT</a>
-<a href="/login">LOGIN</a>
-<a href="/novo">NOVO JOGO </a>
-<a href="/"> INICIO<a>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
+
   <title>{{titulo}}</title>
 </head>
 
 <body>
   <div class="container">
+      <nav class="wrapper">
+          <div>
+            <a href="/logout">LOGOUT</a>
+            <a href="/login">LOGIN</a>
+            <a href="/novo">NOVO JOGO </a>
+            <a href="/"> INICIO<a>
+          </div>
+        </nav>
     {% with messages = get_flashed_messages() %} {% if messages %}
     <ul id="messages" class="list-unstyled">
       {% for message in messages %}
