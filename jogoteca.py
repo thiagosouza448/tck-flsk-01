@@ -6,31 +6,22 @@ from flask_mysqldb import MySQL
 
 
 
-
 app = Flask(__name__)
-app.secret_key = 'eueumesmo'
+app.secret_key = 'alura'
 
-
-
-app.config['MYSQL_HOST'] = "0.0.0.0"
+app.config['MYSQL_HOST'] = "127.0.0.1"
 app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = "123"
+app.config['MYSQL_PASSWORD'] = "1234"
 app.config['MYSQL_DB'] = "jogoteca"
 app.config['MYSQL_PORT'] = 3306
+
 db = MySQL(app)
-
-
 jogo_dao = JogoDao(db)
-
-
-
-
 
 usuario1 = Usuario('thiago448', 'thiago', 'thiago')
 usuario2 = Usuario('alineaclina', 'Aline', 'gatita')
 usuarios = {usuario1.id: usuario1,
             usuario2.id: usuario2}
-
 
 @app.route('/')
 def index():
