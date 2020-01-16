@@ -2,7 +2,6 @@
 
 {% block conteudo %}
       <form action="{{ url_for('criar')}}" method="POST">
-        <fieldset>
           <div class="form-group">
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" class="form-control">
@@ -16,7 +15,6 @@
             <input type="text" id="console" name="console" class="form-control">
           </div>
           <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-        </fieldset>
       </form>
     </div>
 
