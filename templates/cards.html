@@ -1,0 +1,16 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+
+{% for obj in cards %}
+<ul>
+    <li>{{ obj.qte }}</li>
+    <li>{{obj.status}}</li>
+    <li>{{obj.Jogo}} </li>
+</ul>
+
+
+{% endfor %}
+
+
+{% endblock %}

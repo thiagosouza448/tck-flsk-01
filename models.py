@@ -12,3 +12,10 @@ class Usuario:
         self.id = id
         self.nome = nome
         self.senha = senha
+
+class Status:
+    def __init__(self,qte, status, Jogo):
+        self.qte= qte       
+        self.status = status
+        self.Jogo = Jogo
+    

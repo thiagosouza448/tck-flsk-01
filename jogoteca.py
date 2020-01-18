@@ -1,32 +1,42 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-from models import Jogo, Usuario
+from models import Jogo, Usuario, Status
 from dao import JogoDao
 from flask_mysqldb import MySQL
 
 
 
 
+
 app = Flask(__name__)
-app.secret_key = 'alura'
+app.secret_key = 'eueumesmo'
+
+
 
 app.config['MYSQL_HOST'] = "0.0.0.0"
-app.config['MYSQL_USER'] = "root" 
+app.config['MYSQL_USER'] = "root"
 app.config['MYSQL_PASSWORD'] = "123"
 app.config['MYSQL_DB'] = "jogoteca"
 app.config['MYSQL_PORT'] = 3306
- db = MySQL(app)
-
 db = MySQL(app)
+
+
 jogo_dao = JogoDao(db)
 
 
 
 
+card1 = Status('2','Feito','donkong')
+card2 = Status('2','Feito','donkong')
+
+
+
+listaCard = (card1, card2)
 
 usuario1 = Usuario('thiago', 'thiago', 'thiago')
 usuario2 = Usuario('aline', 'Aline', 'aline')
 usuarios = {usuario1.id: usuario1,
             usuario2.id: usuario2}
+
 
 @app.route('/')
 def index():
@@ -106,6 +116,17 @@ def efetuarcadastro():
     user = Usuario(id, nome, senha)
     usuarios.append(user)
     return redirect(url_for('login'))
+
+
+
+@app.route('/cards')
+def cards():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+            return redirect(url_for('login', proxima=url_for('cards')))
+    else:
+        proxima = request.args.get('proxima')
+    return render_template('cards.html', titulo= 'cards', proxima=proxima, cards=listaCard)
+
 
 
 app.run(debug=True)
