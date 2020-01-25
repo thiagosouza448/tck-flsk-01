@@ -1,15 +1,11 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-from models import Jogo, Usuario
+from models import Jogo, Usuario, Status
 from dao import JogoDao
 from flask_mysqldb import MySQL
 
 
-
-
-
 app = Flask(__name__)
 app.secret_key = 'eueumesmo'
-
 
 
 app.config['MYSQL_HOST'] = "0.0.0.0"
@@ -23,24 +19,35 @@ db = MySQL(app)
 jogo_dao = JogoDao(db)
 
 
+onHold = Status('OnHold', 'aguardando', 'nd')
+Progress = Status('Progress', 'Progresso', 'nd')
+Done = Status('done', 'Feito', 'nd')
+progressList = (onHold, Progress, Done)
+
+card1 = onHold.Boards('teste', 'teste', 'teste', 'teste')
+card2 = Progress.Boards('teste2', 'teste2', 'teste2', 'teste2')
 
 
+listagemCard = (card1, card2)
 
-usuario1 = Usuario('thiago448', 'thiago', 'thiago')
-usuario2 = Usuario('alineaclina', 'Aline', 'gatita')
+
+usuario1 = Usuario('thiago', 'thiago', 'thiago')
+usuario2 = Usuario('aline', 'Aline', 'aline')
 usuarios = {usuario1.id: usuario1,
             usuario2.id: usuario2}
 
 
 @app.route('/')
 def index():
-    lista = jogo_dao.listar()
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login', proxima=url_for('index')))
+    else:
+        lista = jogo_dao.listar()
     return render_template('lista.html', titulo='Jogos', jogos=lista)
 
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
-    # show the post with the given id, the id is an integer
     return 'Post %d' % post_id
 
 
@@ -48,7 +55,7 @@ def show_post(post_id):
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo jogo') 
+    return render_template('novo.html', titulo='Novo jogo')
 
 
 @app.route('/criar', methods=['POST', ])
@@ -73,7 +80,7 @@ def autenticar():
         usuario = usuarios[request.form['usuario']]
         if usuario.senha == request.form['senha']:
             session['usuario_logado'] = usuario.id
-            flash(usuario.nome + ' logou com sucesso!')
+            flash(usuario.nome + '\n\n  logou com sucesso!')
             proxima_pagina = request.form['proxima']
             return redirect(proxima_pagina)
 
@@ -109,4 +116,13 @@ def efetuarcadastro():
     return redirect(url_for('login'))
 
 
-app.run(host='127.0.0.1', debug=True)
+@app.route('/cards')
+def cards():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login', proxima=url_for('cards')))
+    else:
+        proxima = request.args.get('proxima')
+    return render_template('cards.html', titulo='BOARDS', proxima=proxima, Progress=progressList,  boards=listagemCard)
+
+
+app.run(debug=True)

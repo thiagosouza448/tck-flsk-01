@@ -1,0 +1,64 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+
+<!-- {% for obj in cards %}
+<ul>
+    <li>{{ obj.qte }}</li>
+    <li>{{obj.status}}</li>
+    <li>{{obj.Jogo}} </li>
+</ul>
+
+
+{% endfor %} -->
+
+
+<div id="kaban">
+    <div id="scroller">
+      <div id="boards">
+        
+        <!-- <div class="board" id="board1" >
+          <header>Aguardando desenvolvimento</header>
+          <div class="cards" id="b1">
+            {% for obj in cards %}
+            <div class="card">
+                <span class="cardtitle noselect">{{ obj.qte }}</span>
+                <span class="cardtitle noselect">{{obj.status}}</span>
+                <span class="cardtitle noselect">{{obj.NameStatus}} </span>
+            
+            </div>
+            {% endfor %}
+   
+          </div>
+        </div>
+        
+        <div class="board" id="board2">
+          <header>Em progresso</header>
+          <div class="cards" id="b2">
+            <div class="card"><span class="cardtitle">teste</span></div>
+          </div>
+        </div> -->
+
+        {% for obj in Progress %}
+        
+        <div class="board" id="{{ obj.ClassStatus }}">
+          <header>{{ obj.status}}</header>
+
+
+          
+          <div class="cards" id="b1">
+            <div class="card"><span class="cardtitle noselect">teste  1</span></div>
+          </div>
+     
+        </div>
+
+        {% endfor %}
+    
+      </div>
+    </div>
+  </div>
+  <!-- partial -->
+
+
+
+{% endblock %}

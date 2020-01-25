@@ -1,0 +1,140 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+
+
+/* CORES PADRÃO */
+
+
+nav.menu , thead.thead-dark tr{
+    background: #5b53ad;
+}
+
+
+
+.wrapper{
+    width:100%;
+    max-width: 1326px;
+    /* border: 1px solid black; */
+    margin: 0 auto;
+}
+@media (max-width: 1300px){
+    .wrapper{
+        width: 99%;
+        margin: 0 auto;
+    }
+}
+
+
+
+
+
+
+
+.base {
+    flex-direction: column;
+    display: flex;
+}
+
+nav.menu div a {
+    width: 90%;
+    height: 40px;
+    margin: 0 auto;
+    color: #fff;
+    list-style: none;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+nav.menu span {
+    font-size: 11px;
+}
+
+.base {
+    display: flex;
+    flex-direction: row;
+}
+
+nav.menu {
+    width: 13%;
+    /* border: 1px solid black; */
+}
+nav.menu div {
+    display: flex;
+    flex-direction: column;
+    width: 98%;
+    padding: 35px 0px;
+}
+
+
+
+.content {
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    font-size: 23px;
+}
+
+thead.thead-dark {
+    text-align: justify;
+}
+
+
+table.list {
+    width: 100%;
+    margin: 0 auto;
+}
+
+tr th {
+    width: 33%;
+}
+
+thead.thead-dark tr {
+    color: #fff;
+}
+
+
+
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    height: 117px;
+}
+.form-group input {
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid #5b53ad;
+}
+
+.form-group label {
+    color: #5b53ad;
+    font-weight: bold;
+}
+
+button.btn.btn-primary.btn-salvar {
+    appearance: none;
+    outline: 0;
+    background-color: #5b53ad;
+    border: 0;
+    padding: 10px 15px;
+    color: #ffffff;
+    border-radius: 3px;
+    width: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition-duration: 0.25s;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
