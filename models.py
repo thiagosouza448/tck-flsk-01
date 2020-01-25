@@ -13,9 +13,15 @@ class Usuario:
         self.nome = nome
         self.senha = senha
 
+
 class Status:
-    def __init__(self,qte, status, Jogo):
-        self.qte= qte       
+    def __init__(self, ClassStatus, status, NameStatus):
+        self.ClassStatus = ClassStatus
         self.status = status
-        self.Jogo = Jogo
-    
+        self.NameStatus = NameStatus
+
+    def Boards(self, id, titulo, nome, Boardstatus):
+        self.id = id
+        self.titulo = titulo
+        self.nome = nome
+        self.Boardstatus = Boardstatus

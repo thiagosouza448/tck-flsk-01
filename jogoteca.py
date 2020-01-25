@@ -4,12 +4,8 @@ from dao import JogoDao
 from flask_mysqldb import MySQL
 
 
-
-
-
 app = Flask(__name__)
 app.secret_key = 'eueumesmo'
-
 
 
 app.config['MYSQL_HOST'] = "0.0.0.0"
@@ -23,14 +19,17 @@ db = MySQL(app)
 jogo_dao = JogoDao(db)
 
 
+onHold = Status('OnHold', 'aguardando', 'nd')
+Progress = Status('Progress', 'Progresso', 'nd')
+Done = Status('done', 'Feito', 'nd')
+progressList = (onHold, Progress, Done)
+
+card1 = onHold.Boards('teste', 'teste', 'teste', 'teste')
+card2 = Progress.Boards('teste2', 'teste2', 'teste2', 'teste2')
 
 
-card1 = Status('2','Feito','donkong')
-card2 = Status('2','Feito','donkong')
+listagemCard = (card1, card2)
 
-
-
-listaCard = (card1, card2)
 
 usuario1 = Usuario('thiago', 'thiago', 'thiago')
 usuario2 = Usuario('aline', 'Aline', 'aline')
@@ -56,7 +55,7 @@ def show_post(post_id):
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo jogo') 
+    return render_template('novo.html', titulo='Novo jogo')
 
 
 @app.route('/criar', methods=['POST', ])
@@ -90,7 +89,6 @@ def autenticar():
         return redirect(url_for('login'))
 
 
-
 @app.route('/logout')
 def logout():
     session['usuario_logado'] = None
@@ -118,15 +116,13 @@ def efetuarcadastro():
     return redirect(url_for('login'))
 
 
-
 @app.route('/cards')
 def cards():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
-            return redirect(url_for('login', proxima=url_for('cards')))
+        return redirect(url_for('login', proxima=url_for('cards')))
     else:
         proxima = request.args.get('proxima')
-    return render_template('cards.html', titulo= 'cards', proxima=proxima, cards=listaCard)
-
+    return render_template('cards.html', titulo='BOARDS', proxima=proxima, Progress=progressList,  boards=listagemCard)
 
 
 app.run(debug=True)
